@@ -8,9 +8,11 @@ public class AutoOcena {
     private int gorzki = 0;
     private int kwasny = 0;
     private int neutralny = 0;
-    public AutoOcena(ArrayList<Skladnik>  listaSkladnikow){
-        System.out.println(ocenaSkladnikow(listaSkladnikow));
 
+    private String ocena;
+    public AutoOcena(ArrayList<Skladnik>  listaSkladnikow){
+
+        this.ocena = ocenaSkladnikow(listaSkladnikow);
     }
 
     private String ocenaSkladnikow(ArrayList<Skladnik> listaSkladnikow){
@@ -73,5 +75,10 @@ public class AutoOcena {
 
 
         return "brak skladnikow do porownania";
+    }
+
+    @Override
+    public String toString() {
+        return ocena;
     }
 }
