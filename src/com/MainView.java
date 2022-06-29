@@ -12,7 +12,16 @@ import javafx.stage.Stage;
 public class MainView extends Stage {
     BorderPane borderPane = new BorderPane();
     private Scene mainScene;
-    private ListView<Przepis> listaPrzepisow;
+
+    public static ListView<Przepis> getListaPrzepisow() {
+        return listaPrzepisow;
+    }
+
+    public static void setListaPrzepisow(ListView<Przepis> listaPrzepisow) {
+        MainView.listaPrzepisow = listaPrzepisow;
+    }
+
+    private static ListView<Przepis> listaPrzepisow;
     private MenuBar menuBar= new MenuBar();
     private Menu dodaj = new Menu("Dodaj");
     private MenuItem przepis = new MenuItem("Przepis");
@@ -26,20 +35,35 @@ public class MainView extends Stage {
     private VBox przepisVbox = new VBox(10);
 
     public MainView(){
-        listaPrzepisow = new ListView(FXCollections.observableArrayList(Przepis.getListaWszystkichPrzepisow()));
+        new Thread(()->{
+            listaPrzepisow = new ListView(FXCollections.observableArrayList(Przepis.getListaWszystkichPrzepisow()));
+
+        }).start();
+        listaSkladnikowPrzepisu = new ListView<>();
 
         dodaj.getItems().addAll(przepis,skladnik);
         menuBar.getMenus().addAll(dodaj);
+        przepis.setOnAction(e ->{
+            DodajPrzepisView dodaj = new DodajPrzepisView();
+
+        });
+        skladnik.setOnAction(e->{
+            DodajSkladnikView dodaj= new DodajSkladnikView();
+        });
+
+
 
         listaPrzepisow.setOnMouseClicked(event -> {
             if(listaPrzepisow.getSelectionModel().getSelectedItem() == null){
                 nazwaPrzepisuTextField.setText("");
                 ocenaPrzepisuTextArea.setText("");
+                listaSkladnikowPrzepisu.setItems(null);
 
             }
             else{
                 nazwaPrzepisuTextField.setText(listaPrzepisow.getSelectionModel().getSelectedItem().getNazwaPrzepisu());
                 ocenaPrzepisuTextArea.setText(listaPrzepisow.getSelectionModel().getSelectedItem().getOcena().toString());
+                listaSkladnikowPrzepisu.setItems(FXCollections.observableArrayList(listaPrzepisow.getSelectionModel().getSelectedItem().getListaSkladnikow()));
 
             }
         });
@@ -48,7 +72,7 @@ public class MainView extends Stage {
 
         przepisVbox.getChildren().addAll(nazwaPrzepisuLabel,
                 nazwaPrzepisuTextField,ocenaAutoLabel,ocenaPrzepisuTextArea,
-                skladnikiLabel);
+                skladnikiLabel,listaSkladnikowPrzepisu);
 
 
         nazwaPrzepisuTextField.setEditable(false);

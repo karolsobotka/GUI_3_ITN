@@ -25,12 +25,26 @@ public class Przepis {
     @Getter
     private AutoOcena ocena;
 
-    public Przepis(String nazwaPrzepisu, ArrayList<Skladnik> listaSkladnikow) throws Exception {
+    public void setNazwaPrzepisu(String nazwaPrzepisu) throws Exception {
+        if(nazwaPrzepisu == "" || nazwaPrzepisu.equals(null)){
+            throw new Exception("dodaj nazwe przepisu");
+        }
         this.nazwaPrzepisu = nazwaPrzepisu;
+    }
+
+    public Przepis(String nazwaPrzepisu, ArrayList<Skladnik> listaSkladnikow) throws Exception {
+        setNazwaPrzepisu(nazwaPrzepisu);
         setListaSkladnikow(listaSkladnikow);
         ocena = new AutoOcena(listaSkladnikow);
-        listaWszystkichPrzepisow.add(this);
+        addPrzepis(this);
+    }
 
+    public void addPrzepis(Przepis przepis) throws Exception {
+        if(listaWszystkichPrzepisow.contains(przepis)){
+            throw new Exception("Juz istnieje taki przepis ");
+        }
+        else
+            listaWszystkichPrzepisow.add(przepis);
     }
 
     @Override

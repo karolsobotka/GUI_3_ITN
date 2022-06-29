@@ -19,7 +19,12 @@ public class Skladnik {
         return OkreslenieSmaku;
     }
 
+    public static List<Skladnik> getListaWszystkichSkladnikow() {
+        return listaWszystkichSkladnikow;
+    }
 
-
-
+    @Override
+    public String toString() {
+        return nazwa;
+    }
 }

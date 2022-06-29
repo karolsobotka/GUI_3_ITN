@@ -39,7 +39,7 @@ public class AutoOcena {
         int neutral =0;
 
         for (int i = 0; i < skladniki.length; i++) {
-            for (int j = i+1; j <skladniki.length ; j++) {
+            for (int j = i+1; j < skladniki.length ; j++) {
                 if (skladniki[i]>skladniki[j]){
                     temp = skladniki[i];
                     skladniki[i] = skladniki[j];
@@ -52,9 +52,11 @@ public class AutoOcena {
         }
 
 
-        if (neutral == 5){
+        if (neutral == skladniki.length*2){
             return "To danie jest tak złe że aż ciężko na nie patrzeć";
         }
+        else if(neutral == 0)
+            return "brak skladnikow do porownania";
         else {
             if(temp == gorzki){
                 return "To danie jest strasznie gorzkie!";
@@ -71,10 +73,10 @@ public class AutoOcena {
             if(temp == neutralny){
                 return "Nijakie to danie dośc neutralne";
             }
+
         }
 
-
-        return "brak skladnikow do porownania";
+        return null;
     }
 
     @Override
